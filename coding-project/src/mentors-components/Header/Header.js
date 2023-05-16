@@ -70,8 +70,8 @@ export default function Header() {
                   </button>
                 )}
                 {!isAuthenticated && (
-                  <button onClick={handleLogin}>
-                    <a> "Login / Register"</a>
+                  <button>
+                    <a href="/login"> "Login / Register"</a>
                   </button>
                 )}
               </div>
