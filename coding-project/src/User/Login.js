@@ -1,6 +1,47 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, signupUser } from "../State-Management/slices/authSlice";
 export default function Login() {
+
+  const dispatch = useDispatch()
+  const router = useRouter()
+
+  const user = useSelector((state) => state.auth.user)
+
+  console.log(user);
+
+  const [name, setName] = useState("")
+  const [image, setImage] = useState(null)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const credentials = {
+      email: email,
+      password: password,
+    };
+    dispatch(loginUser(credentials));
+  };
+
+  if (user) {
+    router.push("/")
+  }
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+    const userData = {
+      name: name,
+      email: email,
+      password: password,
+      image: image,
+    };
+    console.log(userData)
+    dispatch(signupUser(userData));
+  };
+
+
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -14,49 +55,30 @@ export default function Login() {
       container.classList.remove("right-panel-active");
     });
   });
+
+
+
   return (
     <div>
       <div className="container" id="container">
         <div className="form-container sign-up-container">
-          <form action="#">
+          <form onSubmit={handleSignup}>
             <h1>Create Account</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>Sign Up</button>
+            <input type="text" placeholder="Name" onChange={() => setName(event.target.value)} />
+            <input type="email" placeholder="Email" onChange={() => setEmail(event.target.value)} />
+            <input type="password" placeholder="Password" onChange={() => setPassword(event.target.value)} />
+            <input type="file" id="img" name="img" accept="image/*" onChange={(e) => setImage(event.target.files[0])}
+            />
+            <button type="submit">Sign Up</button>
           </form>
         </div>
         <div className="form-container sign-in-container">
-          <form action="#">
+          <form onSubmit={handleLogin}>
             <h1>Sign in</h1>
-            <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your account</span>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="email" placeholder="Email" onChange={() => setEmail(event.target.value)} />
+            <input type="password" placeholder="Password" onChange={() => setPassword(event.target.value)} />
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
           </form>
         </div>
         <div className="overlay-container">

@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function Account() {
+export default function Account({ mentor }) {
+  console.log(mentor)
   return (
     <div>
       <div className="managment-account">
@@ -19,6 +20,11 @@ export default function Account() {
               <a className="sc-crHmcD layWKW">
                 <i className="fa-solid fa-file-lines"></i>
                 <div className="sc-bqiRlB bfSpmb">Mentorships</div>
+
+              </a>
+              <a className="sc-crHmcD layWKW">
+                <i className="fas fa-comments"></i>
+                <div className="sc-bqiRlB bfSpmb">Conversations</div>
               </a>
               <a href="/" className="sc-crHmcD layWKW">
                 <i className="fa-solid fa-people-arrows"></i>
@@ -28,6 +34,7 @@ export default function Account() {
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <div className="sc-bqiRlB bfSpmb">Logout</div>
               </a>
+
             </nav>
             <div className="account-right-side">
               <div className="accont-home">
@@ -45,15 +52,15 @@ export default function Account() {
                         </a>
                       </div>
                       <img src="img/navlogo.jpg" alt="" />
-                      <h2>Urvish Vaghasiya</h2>
-                      <p>Full stack web developer</p>
+                      <h2>{mentor.name}</h2>
+                      <p>{mentor.title}</p>
                     </div>
                   </div>
                   <div className="col-lg-4">
                     <div className="profile-details details-cover">
                       <div className="row align-items-center justify-content-between detail-name">
                         <a href="javascript:void(0)">My Profile</a>
-                        <a href="javascript:void(0)">Edit</a>
+                        <a href={`/me/${mentor.id}/update`}>Edit</a>
                       </div>
                       <div className="profiles-details-cover">
                         <ul>
@@ -72,7 +79,7 @@ export default function Account() {
                                 d="M12 11.38l-10-5V6c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v.38l-10 5z"
                               ></path>
                             </svg>
-                            <p>vaghasiyaurvish09@gmail.com</p>
+                            <p>{mentor.email}</p>
                           </li>
                           <li>
                             <svg
@@ -89,7 +96,15 @@ export default function Account() {
                                 d="M13.33 18l-1.4 3.38a1 1 0 0 1-1.85-.76l5-12a1 1 0 0 1 1.84 0l5 12a1 1 0 0 1-1.84.76L18.67 18h-5.34zm.84-2h3.66L16 11.6 14.17 16z"
                               ></path>
                             </svg>
-                            <p>English, Hindi, Gujarati</p>
+                            {mentor.languages.map((language, index) => (
+                              <React.Fragment key={language}>
+                                <p>
+                                  {language}
+                                  {index !== mentor.languages.length - 1 && " , "}
+                                </p>
+                              </React.Fragment>)
+                            )}
+
                           </li>
                           <li>
                             <svg
@@ -106,7 +121,7 @@ export default function Account() {
                                 d="M12 1a9 9 0 0 1 6.36 15.36l-5.65 5.66a1 1 0 0 1-.71.3V13a3 3 0 0 0 0-6V1z"
                               ></path>
                             </svg>
-                            <p>India</p>
+                            <p>{mentor.country}</p>
                           </li>
                           <li>
                             <svg
@@ -123,7 +138,7 @@ export default function Account() {
                                 d="M14 12.92V12a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.92a23.85 23.85 0 0 1-8-2.1V8c0-1.1.9-2 2-2h3V5a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1h3a2 2 0 0 1 2 2v2.82a23.85 23.85 0 0 1-8 2.1zM15 6V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1h6z"
                               ></path>
                             </svg>
-                            <p>Full stack web developer</p>
+                            <p>{mentor.title}</p>
                           </li>
                           <li>
                             <svg
@@ -144,7 +159,14 @@ export default function Account() {
                                 d="M8.7 13.3a1 1 0 0 1-1.4 1.4l-2-2a1 1 0 0 1 0-1.4l2-2a1 1 0 1 1 1.4 1.4L7.42 12l1.3 1.3zm6.6 0l1.29-1.3-1.3-1.3a1 1 0 1 1 1.42-1.4l2 2a1 1 0 0 1 0 1.4l-2 2a1 1 0 0 1-1.42-1.4zm-3.32 3.9a1 1 0 0 1-1.96-.4l2-10a1 1 0 0 1 1.96.4l-2 10z"
                               ></path>
                             </svg>
-                            <p>net, reactjs, redux, asp.net</p>
+                            {mentor.skills.map((skill, index) => (
+                              <React.Fragment key={skill}>
+                                <p>
+                                  {skill}
+                                  {index !== mentor.skills.length - 1 && " , "}
+                                </p>
+                              </React.Fragment>)
+                            )}
                           </li>
                           <li>
                             <svg
@@ -163,7 +185,7 @@ export default function Account() {
                                 d="M10 14.59l6.3-6.3a1 1 0 0 1 1.4 1.42l-7 7a1 1 0 0 1-1.4 0l-3-3a1 1 0 0 1 1.4-1.42l2.3 2.3z"
                               ></path>
                             </svg>
-                            <p>available</p>
+                            {mentor.available ? <p>available</p> : <p>not available</p>}
                           </li>
                           <li>
                             <svg
@@ -181,14 +203,7 @@ export default function Account() {
                               ></path>
                             </svg>
                             <p>
-                              I am Full stack web developer with 2 years of
-                              experience with expertise of Microsoft Asp. Net
-                              core and React js. As a software developer i am
-                              building web application using react js and asp.
-                              Net core latest version. Intrested to help people
-                              with the knowledge that i grabbed in two years.
-                              Its become my pleasure to help some one through
-                              this platform.
+                              {mentor.about}
                             </p>
                           </li>
                         </ul>

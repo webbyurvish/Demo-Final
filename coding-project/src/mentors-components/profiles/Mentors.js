@@ -9,11 +9,12 @@ export default function Mentors({ mentors }) {
 
   return (
     <Layout>
-      <div className="row">
+      {mentors.length < 1 && <h3>There is no mentors to show</h3>}
+      {mentors.length > 0 && <div className="row">
         {mentors.map((mentor) => (
           <Mentor mentor={mentor} />
         ))}
-      </div>
+      </div>}
     </Layout>
   );
 }

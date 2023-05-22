@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Mentor({ mentor }) {
+  console.log(mentor);
   return (
     <div className="col-lg-4">
       <div className="mentor-card-cover">
@@ -27,21 +28,11 @@ export default function Mentor({ mentor }) {
           <p>{mentor.about}</p>
           <div className="technology">
             <ul>
-              <li>
-                <a href="javascript:void(0)">nodejs</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">reactjs</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">react native</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">redux</a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">git</a>
-              </li>
+              {mentor.skills.map(skill => {
+                return <li>
+                  <a href="javascript:void(0)">{skill}</a>
+                </li>
+              })}
             </ul>
           </div>
         </div>
@@ -52,6 +43,6 @@ export default function Mentor({ mentor }) {
           </a>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

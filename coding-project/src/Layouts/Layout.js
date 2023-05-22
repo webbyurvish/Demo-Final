@@ -1,10 +1,26 @@
-import { Children } from "react";
-import Header from "../mentors-components/Header/Header";
-import Sidebar from "../mentors-components/Sidebar/Sidebar";
-import image from "../../public/img/circle.png";
+import { Children, useState } from "react";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../State-Management/slices/authSlice";
 
 export const Layout = ({ children }) => {
+
+  const dispatch = useDispatch()
+
+  const user = useSelector((state) => state.auth.user);
+
+  const [menu, setmenu] = useState(false);
+  console.log(user)
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    setmenu((prevstate) => !prevstate)
+  };
+
+  const handleShowMenu = () => {
+    setmenu((prevstate) => !prevstate)
+  }
+
   return (
     <div>
       <header className="header">
@@ -33,33 +49,35 @@ export const Layout = ({ children }) => {
                     <li>
                       <a href="javascript:void(0)">Sessions Calendar</a>
                     </li>
-                    <li>
+                    {user && !user.isMentor && <li>
                       <a href="javascript:void(0)">Become a mentor</a>
-                    </li>
+                    </li>}
                   </ul>
                 </div>
               </div>
             </div>
             <div className="col-lg-4">
               <div className="login-register">
-                {/* <button>
-                  <Image src="/img/user.png" width={40} height={50} alt="" />
+                {
+                  user && <a><Image onClick={handleShowMenu} src="/img/user.png" width={50} height={50} alt="" /></a>
+                }
 
-                  <a href="/me">Manage Account</a>
-                  <a href="javascript:void(0)">Become A Mentor</a>
-                  <a href="javascript:void(0)">Logout</a>
-                </button> */}
+                {menu && <div className="manageandlogin">
+                  <a href={`/me/${user.id}`}>Manage Account</a>
+                  <a onClick={handleLogout} href="javascript:void(0)">Logout</a>
+                </div>}
 
-                {/* {!isAuthenticated && ( */}
-                <button>
+                {
+                  !user &&
                   <a href="/login"> "Login / Register"</a>
-                </button>
+                }
+
                 {/* )} */}
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </header >
       <div className="main-cover">
         <div className="container-fluid">
           <div class="fixed-menu">
@@ -146,6 +164,6 @@ export const Layout = ({ children }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };

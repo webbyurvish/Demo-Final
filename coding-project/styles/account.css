@@ -1,3 +1,7 @@
+.row > *:not([class*="col-"]) {
+  width: auto;
+}
+
 .eWrBEk {
   position: fixed;
   left: 0px;
